@@ -36,7 +36,7 @@ domani,?,1
 Per far eseguire il compito 2 bisogna scrivere come input da linea di comandi ```2``` come primo argomento. Oltre il numero del compito e se lo si vuole multiprocesso o no bisogna specificare il file ```csv``` dalla linea di comando. Inoltra bisogna inserire in input la lunghezza della frase che si vuole generare e una parola da cui partire (opzionale).<br> 
 Un esempio di comando per eseguire il programma e fargli eseguire il compito 2:
 ```sh
-./ANSI-C 2 par input/example.csv
+./ANSI-C 2 par input/example.csv 11 !
 ```
 In questo esempio la tabella è:
 ```
@@ -54,7 +54,7 @@ oggi,tempo,1
 incerto,!,1
 domani,?,1
 ```
-Il testo in output sarà creato in un file chiamato ```example_random.txt``` nella cartella ```output```, in questo casò la tabella sarà:
+Il testo in output sarà creato in un file chiamato ```example_random.txt``` nella cartella ```output```, in questo casò un possibile output da 11 parole sarà:
 ```
 Previsioni del tempo incerto ! Cosa dicono le previsioni del tempo
 ```
