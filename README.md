@@ -36,7 +36,7 @@ domani,?,1
 Per far eseguire il compito 2 bisogna scrivere come input da linea di comandi ```2``` come primo argomento. Oltre il numero del compito e se lo si vuole multiprocesso o no bisogna specificare il file ```csv``` dalla linea di comando. Inoltra bisogna inserire in input la lunghezza della frase che si vuole generare e una parola da cui partire (opzionale).<br> 
 Un esempio di comando per eseguire il programma e fargli eseguire il compito 2:
 ```sh
-./ANSI-C 2 par input/example.csv 11 !
+./ANSI-C 2 par csv/example.csv 11 !
 ```
 In questo esempio la tabella è:
 ```
