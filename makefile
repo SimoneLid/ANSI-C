@@ -1,2 +1,4 @@
-ANSI-C: src/main.c src/file_reader.c
-	gcc -Wall src/main.c src/file_reader.c -o ANSI-C
+FLAG:=-Wall -Wextra -Wno-unused-variable
+
+ANSI-C: src/*.c
+	gcc $(FLAG) src/*.c -o ANSI-C
