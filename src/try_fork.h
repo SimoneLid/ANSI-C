@@ -30,9 +30,11 @@ int main()
         }
     }
     else{
-        while(fgetc!=-1){
+        int i=0;
+        while(i<20){
             char word[30]="prova";
             write(pipe_info[1],word,30);
+            i++;
         }
         close(pipe_info[1]);
     }
