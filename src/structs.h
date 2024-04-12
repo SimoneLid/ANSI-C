@@ -26,7 +26,7 @@ struct Word* create_first_word(){
 
 void newWord(struct Word* first_word, char *wordname){
     /*
-    La funzione prende il puntatore all'inizio della lista puntata e il nuovo nome della parola 
+    La funzione prende il puntatore all'inizio della lista puntata e il nome della parola 
     da inserire. Controlla se una Word con quel nome esiste già, nel caso aumenta solo il counter,
     sennò scorre fino alla fine della lista e aggiunge una nuova struttura Word
     che viene collegata come successiva dell'ultima
@@ -42,7 +42,7 @@ void newWord(struct Word* first_word, char *wordname){
     }
     struct Word* word = (struct Word*) calloc(1, sizeof(struct Word));//crea e alloca la nuova Word
     char *new_name = (char *)malloc(strlen(wordname)+1);//crea e alloca la stringa del nome
-    strcpy(new_name,wordname);//IMPORTANTISSIMO
+    strcpy(new_name,wordname);//copia il nome nella nuova stringa
     word->name=new_name;
     word->count=1;
     pointer->next=word;
