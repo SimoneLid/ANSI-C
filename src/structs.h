@@ -31,18 +31,21 @@ void newWord(struct Word* first_word, char *wordname){
     sennò scorre fino alla fine della lista e aggiunge una nuova struttura Word
     che viene collegata come successiva dell'ultima
     */
-    struct Word* pointer;
-    pointer=first_word;
-    while(pointer->next!=NULL){//arriva fino al'ultimo elemento
-        if(strcmp(pointer->name,wordname)==0){
-            pointer->count++;
-            return;
-        }
-        pointer=pointer->next;
-    }
     struct Word* word = (struct Word*) calloc(1, sizeof(struct Word));//crea e alloca la nuova Word
     char *new_name = (char *)malloc(strlen(wordname)+1);//crea e alloca la stringa del nome
     strcpy(new_name,wordname);//copia il nome nella nuova stringa
+    
+    struct Word* pointer;
+    pointer=first_word;
+
+
+    while(pointer->next!=NULL && strcmp(pointer->name,new_name)!=0){//arriva fino all'ultimo elemento
+        pointer=pointer->next;
+    }
+    if(strncmp(pointer->name,new_name,strlen(pointer->name))==0){
+            pointer->count++;
+            return;
+        }
     word->name=new_name;
     word->count=1;
     pointer->next=word;

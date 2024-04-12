@@ -9,7 +9,7 @@
 void open_txt(char *filename){
     /* 
     La funzione prende in input il nome del file e lo apre, creando la prima parola, cioè "."
-    Dopo controlla ogni carattere del testo e fa degli if:
+    Dopo legge ogni carattere del testo e controlla diverse cose:
         *1.controlla se è una lettera maiuscola e in caso la fa diventare minuscola
         *2.controlla se il carattere è un carattere accettato nelle parole e lo inserisce
             nella parola corrente
@@ -23,14 +23,14 @@ void open_txt(char *filename){
             viene salvata (sempre se non è vuota o solo "'") la parola appena terminata
     Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'")
     */
+    char ch;
     FILE *file_in;
-    file_in=fopen(filename,"r");
+    file_in=fopen(filename,"rb");
     struct Word* first_word;
     first_word=create_first_word();
 
 
-
-    int line;
+    char line;
     char word[30]="";
     char pre_word[30]=".";
     int id_word=0;
@@ -38,23 +38,24 @@ void open_txt(char *filename){
     while(line!=EOF){
         line=lower_uppercase(line);// *1
         if(is_ascii_accepted(line)){// *2
-            word[id_word]=(char)line;
+            word[id_word]=line;
             id_word++;
         }
         else if(is_punct_accepted(line)){// *3
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 newWord(first_word,word);
             }
-            char punct[2]={line,'\0'};
-            newWord(first_word,punct);
+            word[0]=line;
+            word[1]='\0';
+            newWord(first_word,word);
             memset(pre_word,0,30);
-            strcpy(pre_word,punct);
+            strcpy(pre_word,word);
             memset(word,0,30);
             id_word=0;
         }
         else if(line==39){// *4
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-                word[id_word]=(char)line;
+                word[id_word]=line;
                 newWord(first_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
@@ -62,7 +63,7 @@ void open_txt(char *filename){
                 id_word=0;
             }
             else{
-                word[0]=(char)line;
+                word[0]=line;
                 id_word++;
             }
         }
@@ -84,7 +85,6 @@ void open_txt(char *filename){
         newWord(first_word,word);
     }
 
-
     if(first_word->next==NULL){// controlla che esista almeno una parola dopo "."
         printf("Errore!!\nIl file è vuoto oppure non contiene parole accettate\n");
         exit(0);
@@ -93,7 +93,7 @@ void open_txt(char *filename){
     pointer=first_word;
     int i=0;
     while(pointer!=NULL){
-        printf("parola:%s\ncount:%d\n\n",pointer->name,pointer->count);
+        printf("parola:%s\ncount:%d\n\n\n",pointer->name,pointer->count);
         pointer=pointer->next;
         i++;
     }
