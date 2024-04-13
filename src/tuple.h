@@ -2,9 +2,9 @@
 
 typedef struct
 {
-    char* name;
+    char name[30];
     int count;
     struct Tuple* next_tuple;
 }Tuple;
 
-void newTuple(Word* first_word, char *wordname, char *next_wordname);
+void newTuple(Word* first_word, char wordname[30], char next_wordname[30]);

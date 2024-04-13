@@ -7,7 +7,7 @@
 #include "tuple.h"
 
 
-struct Word *open_txt(char *filename){
+void open_txt(char *filename, char *csv_out){
     /* 
     La funzione prende in input il nome del file e lo apre, creando la prima parola, cioè "."
     Dopo legge ogni carattere del testo e controlla diverse cose:
@@ -23,32 +23,33 @@ struct Word *open_txt(char *filename){
         *5.gli unici caratteri rimasti sono le punteggiature da eliminare quindi
             viene salvata (sempre se non è vuota o solo "'") la parola appena terminata
     Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'")
-    Infine ritorna il puntatore alla prima parola della lista puntata
+    Poi chiama la funzione che scrive il file csv
     */
+    Word *first_word;
+    first_word=create_first_word();
+    FILE *file_in=fopen(filename,"r");
+    
+
+
     char ch;
-    FILE *file_in;
-    file_in=fopen(filename,"rb");
-    Word *first_word=create_first_word();
-
-
-    char line;
     char word[30]="";
     char pre_word[30]=".";
     int id_word=0;
-    line=fgetc(file_in);
-    while(line!=EOF){
-        line=lower_uppercase(line);// *1
-        if(is_ascii_accepted(line)){// *2
-            word[id_word]=line;
+    ch=fgetc(file_in);
+    while(ch!=EOF){
+        
+        ch=lower_uppercase(ch);// *1
+        if(is_ascii_accepted(ch)){// *2
+            word[id_word]=ch;
             id_word++;
         }
-        else if(is_punct_accepted(line)){// *3
+        else if(is_punct_accepted(ch)){// *3
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
-                word[0]=line;
+                word[0]=ch;
                 word[1]='\0';
                 newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
@@ -58,7 +59,7 @@ struct Word *open_txt(char *filename){
                 id_word=0;
             }
             else{
-                word[0]=line;
+                word[0]=ch;
                 word[1]='\0';
                 newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
@@ -68,9 +69,9 @@ struct Word *open_txt(char *filename){
                 id_word=0;
             }
         }
-        else if(line==39){// *4
+        else if(ch==39){// *4
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-                word[id_word]=line;
+                word[id_word]=ch;
                 newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
@@ -79,8 +80,8 @@ struct Word *open_txt(char *filename){
                 id_word=0;
             }
             else{
-                word[0]=line;
-                id_word++;
+                word[0]=ch;
+                id_word=1;
             }
         }
         else if(strcmp(word,"")!=0){// *5
@@ -97,7 +98,7 @@ struct Word *open_txt(char *filename){
             id_word=0;
             }
         }
-        line=fgetc(file_in);
+        ch=fgetc(file_in);
     }
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
         newWord(first_word,word);
@@ -112,8 +113,6 @@ struct Word *open_txt(char *filename){
             newTuple(first_word,pre_word,pointer->name);
         }
     }
-    
-
     fclose(file_in);
 
     // controlla che esista almeno una parola dopo "."
@@ -121,30 +120,26 @@ struct Word *open_txt(char *filename){
         printf("Errore!!\nIl file è vuoto oppure non contiene parole accettate\n");
         exit(0);
     }
+    
+    
+    write_csv(csv_out,first_word);
 
-    // inizio print
-    Word *pointer;
+
+    //inizio print
+    /* Word *pointer;
     pointer=first_word;
     Tuple *tuple_pointer;
 
-    int i=0;
     while(pointer!=NULL){
         printf("[%s,%d]={",pointer->name,pointer->count);
         tuple_pointer=pointer->first_tuple;
-        printf("[%s,%d]",tuple_pointer->name,tuple_pointer->count);
+        printf("[%s,%.4f]",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
         tuple_pointer=tuple_pointer->next_tuple;
         while(tuple_pointer!=NULL){
-            printf(",[%s,%d]",tuple_pointer->name,tuple_pointer->count);
+            printf(",[%s,%.4f]",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
             tuple_pointer=tuple_pointer->next_tuple;
         }
         printf("}\n");
         pointer=pointer->next;
-        i++;
-    }
-    printf("Numero parole distinte:%d\n",i);
-    // fine print
-    
-
-    printf("first_word:%d prossima:%d\n",first_word,first_word->next);
-    return first_word;
+    } */    
 }

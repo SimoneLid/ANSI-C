@@ -5,21 +5,23 @@
 
 #include "tuple.h"
 
+
+
 int main(int argc, char *argv[]){
-    printf("n arg:%d\nargv[1]:%s\n",argc,argv[1]);
-    char filename[strlen(argv[1])+6];
-    strcpy(filename,"input/");
-    strcat(filename,argv[1]);
-
-
-    Word *linked_list=open_txt(filename);
-
-    printf("linked_list:%d\n",linked_list);
-    printf("linked_list:%d prossima:%d\n",linked_list,linked_list->next);
-
-    /* char csv_out[strlen(filename)];
-    strcpy(csv_out,"csv/");
-    strncat(csv_out,argv[1],strlen(argv[1])-4);
-    strcat(csv_out,".csv");
-    write_csv(csv_out,linked_list); */
+    int flags[2];
+    control_argv(argc,argv,flags);
+    if(flags[0]==2){
+        printf("Compito 2 non ancora implementato!\n");
+        exit(0);
+    }
+    if(flags[1]==1){
+        //printf("Eseguendo compito 1 par\n");
+        open_txt(argv[3],argv[4]);
+    }
+    else{
+        //printf("Eseguendo compito 1 non par\n");
+        open_txt(argv[2],argv[3]);
+    }
 }
+
+

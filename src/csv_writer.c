@@ -6,25 +6,39 @@
 
 #include "tuple.h"
 
-void write_csv(char *filename, Word* linked_list){
-    printf("inizio scrittura\n");
-    FILE *file_out;
-    file_out=fopen(filename,"w");
+void write_csv(char *outfile, Word *first_word){
+    /* 
+    Funzione che prende in input un file su cui scrivere e la prima parola
+    della lista puntata e scrive il csv con le relative probabilità
+    */
+    FILE *file_out=fopen(outfile,"w");
 
-    /* struct Tuple* tuple;
-    tuple=linked_list->first_tuple; */
-    printf("%s",linked_list->name);
-    /* while(linked_list!=NULL){
-        fprintf(file_out,linked_list->name);
-        while(tuple!=NULL){
-            fprintf(file_out,tuple->name);
-            fprintf(file_out,",");
-            fprintf(file_out,tuple->count);
-            tuple=tuple->next_tuple;
+
+    Word *pointer;
+    pointer=first_word;
+    Tuple *tuple_pointer;
+
+    // esegue fino alla fine della lista di Word
+    while(pointer!=NULL){
+        fprintf(file_out,"%s",pointer->name);
+        tuple_pointer=pointer->first_tuple;
+        if(tuple_pointer->count%pointer->count==0){
+            fprintf(file_out,",%s,%d",tuple_pointer->name,(tuple_pointer->count/pointer->count));
+        }
+        else{
+            fprintf(file_out,",%s,%.4f",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
+        }
+        tuple_pointer=tuple_pointer->next_tuple;
+        while(tuple_pointer!=NULL){// esegue fino alla fine della lista di Tuple
+            if(tuple_pointer->count%pointer->count==0){
+                fprintf(file_out,",%s,%d",tuple_pointer->name,(tuple_pointer->count/pointer->count));
+            }
+            else{
+                fprintf(file_out,",%s,%.4f",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
+            }
+            tuple_pointer=tuple_pointer->next_tuple;
         }
         fprintf(file_out,"\n");
-        linked_list=linked_list->next;
-        tuple=linked_list->first_tuple;
+        pointer=pointer->next;
     }
-    fclose(file_out); */
 }
