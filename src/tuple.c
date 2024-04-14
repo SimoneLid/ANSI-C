@@ -68,6 +68,7 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
     Word *pointer;
     pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
     
+    pointer->count-=perc_f;
 
     Tuple *tuple = (Tuple*) malloc(sizeof(Tuple));
     // controlla se questa è la prima tupla e ci inserisce i valori

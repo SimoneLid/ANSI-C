@@ -28,43 +28,52 @@ Word *random_start_word(Word *first_word){
     controlla quali puntatori esistono (cioè la parola è nel csv) e randomizza la punteggiatura
     da cui iniziare
     */
+    float sum;
     if(question!=NULL && esclamation!=NULL){
         int num=rand()%3;
         if(num==0){
+            sum=point->count;
             start_point=point->first_tuple;
         }
         else if(num==1){
+            sum=question->count;
             start_point=question->first_tuple;
         }
         else{
+            sum=esclamation->count;
             start_point=esclamation->first_tuple;
         }
     }
     else if(question!=NULL){
         int num=rand()%2;
         if(num==0){
+            sum=point->count;
             start_point=point->first_tuple;
         }
         else{
+            sum=question->count;
             start_point=question->first_tuple;
         }
     }
     else if(esclamation!=NULL){
         int num=rand()%2;
         if(num==0){
+            sum=point->count;
             start_point=point->first_tuple;
         }
         else{
+            sum=esclamation->count;
             start_point=esclamation->first_tuple;
         }
     }
     else{
+        sum=point->count;
         start_point=point->first_tuple;
     }
 
 
     // randomizza una tra le tuple collegate alla punteggiatura selezionata casualmente
-    double num_r =(double)rand() / (double)((unsigned)RAND_MAX + 1);
+    double num_r =((float)rand()/(float)(RAND_MAX)) * (1-sum);
     while(num_r-start_point->count>0){
         num_r-=start_point->count;
         start_point=start_point->next_tuple;
@@ -110,9 +119,9 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     Tuple *tuple_pointer;
     char upper[30];
     double num_r;
-    char last_written[30]="";
+    char last_written[30]=".";
     while(n_word>0){
-        if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0|| strcmp(last_written,"")==0){
+        if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0){
             strcpy(upper,start->name);
             upper[0]=upper_lowercase(upper[0]);
             fprintf(file_out,"%s ",upper);
@@ -121,10 +130,10 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             fprintf(file_out,"%s ",start->name);
         }
         strcpy(last_written,start->name);
-        num_r =(double)rand() / (double)((unsigned)RAND_MAX + 1);
+        num_r =((float)rand()/(float)(RAND_MAX)) * (1-start->count);
         tuple_pointer=start->first_tuple;
-        while(num_r-tuple_pointer->count>0){
-            num_r-=tuple_pointer->count;
+        while(num_r-(double)tuple_pointer->count>0){
+            num_r=num_r-(double)tuple_pointer->count;
             tuple_pointer=tuple_pointer->next_tuple;
         }
         start=search_word(first_word,tuple_pointer->name);
