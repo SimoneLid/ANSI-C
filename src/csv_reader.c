@@ -49,7 +49,7 @@ void read_csv(Word *first_word,char *filename){
             if(!pre_word_found){
                 pre_word_found=true;
                 if(is_first_word){
-                    first_word=create_first_word(pre_word);
+                    newWord(first_word,pre_word);
                     is_first_word=false;
                 }
                 else{

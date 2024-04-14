@@ -8,6 +8,7 @@
 
 
 int main(int argc, char *argv[]){
+    printf("num argomenti:%d\n",argc);
     int flags[2];
     control_num_par(argc,argv,flags);
     if(flags[0]==2 && flags[1]==0){
