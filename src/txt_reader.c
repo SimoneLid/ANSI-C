@@ -7,9 +7,9 @@
 #include "tuple.h"
 
 
-void open_txt(char *filename, char *csv_out){
+void read_txt(Word *first_word,char *filename){
     /* 
-    La funzione prende in input il nome del file e lo apre, creando la prima parola, cioè "."
+    La funzione prende in input il nome del file txt e lo apre
     Dopo legge ogni carattere del testo e controlla diverse cose:
         *1.controlla se è una lettera maiuscola e in caso la fa diventare minuscola
         *2.controlla se il carattere è un carattere accettato nelle parole e lo inserisce
@@ -25,9 +25,14 @@ void open_txt(char *filename, char *csv_out){
     Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'")
     Poi chiama la funzione che scrive il file csv
     */
-    Word *first_word;
-    first_word=create_first_word();
+
+
+    // apre e controlla che il file esista
     FILE *file_in=fopen(filename,"r");
+    if(file_in==0){
+        printf("Il file di input non esiste!\n");
+        exit(0);
+    }
     
 
 
@@ -104,7 +109,8 @@ void open_txt(char *filename, char *csv_out){
         newWord(first_word,word);
         newTuple(first_word,pre_word,word);
         if(strcmp(word,".")!=0){
-            newTuple(first_word,word,first_word->next);
+            Word *tmp=first_word->next;
+            newTuple(first_word,word,tmp->name);
         }
     }
     else{
@@ -117,12 +123,11 @@ void open_txt(char *filename, char *csv_out){
 
     // controlla che esista almeno una parola dopo "."
     if(first_word->next==NULL){
-        printf("Errore!!\nIl file è vuoto oppure non contiene parole accettate\n");
+        printf("Il file è vuoto oppure non contiene parole accettate\n");
         exit(0);
     }
     
     
-    write_csv(csv_out,first_word);
 
 
     //inizio print
@@ -131,15 +136,15 @@ void open_txt(char *filename, char *csv_out){
     Tuple *tuple_pointer;
 
     while(pointer!=NULL){
-        printf("[%s,%d]={",pointer->name,pointer->count);
+        printf("[%s,%.4f]={",pointer->name,pointer->count);
         tuple_pointer=pointer->first_tuple;
-        printf("[%s,%.4f]",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
+        printf("[%s,%.4f]",tuple_pointer->name,(tuple_pointer->count/pointer->count));
         tuple_pointer=tuple_pointer->next_tuple;
         while(tuple_pointer!=NULL){
-            printf(",[%s,%.4f]",tuple_pointer->name,((float)tuple_pointer->count/pointer->count));
+            printf(",[%s,%.4f]",tuple_pointer->name,(tuple_pointer->count/pointer->count));
             tuple_pointer=tuple_pointer->next_tuple;
         }
         printf("}\n");
         pointer=pointer->next;
-    } */    
+    } */
 }

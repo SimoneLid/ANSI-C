@@ -4,13 +4,12 @@
 
 #include "word.h"
 
-Word *create_first_word(){
+Word *create_first_word(char word[30]){
     /* 
-    Funzione che crea la prima Word della lista puntata (contenente la parola ".")
-    e ritorna il puntatore
+    Funzione che crea la prima Word della lista puntata e ritorna il puntatore
     */
     Word *first_word = (Word*) malloc(sizeof(Word));
-    strcpy(first_word->name,".");
+    strcpy(first_word->name,word);
     first_word->count=1;
     first_word->next=NULL;
     return first_word;
@@ -31,7 +30,7 @@ void newWord(Word *first_word, char wordname[30]){
     contenente la parola
     */
     while(pointer->next!=NULL && strcmp(pointer->name,wordname)!=0){
-        pointer=pointer->next;
+        pointer=(Word *)pointer->next;
     }
 
     // controlla se si è fermato perchè ha trovato la parola
@@ -58,8 +57,8 @@ Word *search_word(Word *first_word, char wordname[30]){
     pointer=first_word;
 
     // arriva fino all'elemento cercato
-    while(strcmp(pointer->name,wordname)!=0){
-        pointer=pointer->next;
+    while(pointer!=NULL && strcmp(pointer->name,wordname)!=0){
+        pointer=(Word *)pointer->next;
     }
     return pointer;
 }
