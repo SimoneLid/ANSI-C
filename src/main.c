@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
     }
     else if(flags[1]==1){
         //printf("Eseguendo compito 1 par\n");
-        comp1_mono(argc, argv);
+        comp1_mono(argv);
     }
     else{
         //printf("Eseguendo compito 1 non par\n");

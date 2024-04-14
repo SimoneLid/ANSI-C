@@ -105,21 +105,24 @@ void read_txt(Word *first_word,char *filename){
         }
         ch=fgetc(file_in);
     }
+
+    /*
+    alla fine controlla se l'ultima parola controllata è una parola accettata e
+    la inserisce nella lista escludendo il punto
+    */
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
         newWord(first_word,word);
         newTuple(first_word,pre_word,word);
-        Word *tmp=first_word->next;
+        Word *tmp=(Word *)first_word->next;
         newTuple(first_word,word,tmp->name);
-        
     }
     else{
         if(strcmp(pre_word,".")!=0){
-            Word* tmp=first_word->next;
+            Word* tmp=(Word *)first_word->next;
             newTuple(first_word,pre_word,tmp->name);
         }
         else{
-            Word *tmp=search_word(first_word,".");
-            tmp->count--;
+            first_word->count--;
         }
     }
     fclose(file_in);
@@ -129,24 +132,4 @@ void read_txt(Word *first_word,char *filename){
         printf("Il file è vuoto oppure non contiene parole accettate\n");
         exit(0);
     }
-    
-
-
-    //inizio print
-    /* Word *pointer;
-    pointer=first_word;
-    Tuple *tuple_pointer;
-
-    while(pointer!=NULL){
-        printf("[%s,%.4f]={",pointer->name,pointer->count);
-        tuple_pointer=pointer->first_tuple;
-        printf("[%s,%.4f]",tuple_pointer->name,(tuple_pointer->count/pointer->count));
-        tuple_pointer=tuple_pointer->next_tuple;
-        while(tuple_pointer!=NULL){
-            printf(",[%s,%.4f]",tuple_pointer->name,(tuple_pointer->count/pointer->count));
-            tuple_pointer=tuple_pointer->next_tuple;
-        }
-        printf("}\n");
-        pointer=pointer->next;
-    } */
 }

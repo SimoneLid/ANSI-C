@@ -44,8 +44,8 @@ char lower_uppercase(char current_char){
 
 char upper_lowercase(char current_char){
         /* 
-    Preso il carattere controlla se è una lettera maiuscola e la trasforma
-    in minuscola
+    Preso il carattere controlla se è una lettera minuscola e la trasforma
+    in maiuscola
     */
     if(current_char>=97 && current_char<=122){
             return current_char-32;

@@ -50,7 +50,7 @@ void newWord(Word *first_word, char wordname[30]){
     strcpy(word->name,wordname);
     word->count=1;
     word->next=NULL;
-    pointer->next=word;
+    pointer->next=(struct Word*)word;
 }
 
 

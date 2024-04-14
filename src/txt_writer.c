@@ -16,11 +16,15 @@ Word *random_start_word(Word *first_word){
     // crea un seed per non avere gli stessi numeri random
     srand(time(NULL));
 
+    char quest_str[30];
+    char escl_str[30];
+    quest_str[0]='?';
+    escl_str[0]='!';
 
     // controlla quali punteggiature sono presenti nel csv e salva i puntatori
     Word *point=first_word;
-    Word *question=search_word(first_word,"?");
-    Word *esclamation=search_word(first_word,"!");
+    Word *question=search_word(first_word,quest_str);
+    Word *esclamation=search_word(first_word,escl_str);
     Tuple *start_point;
 
 
@@ -33,42 +37,42 @@ Word *random_start_word(Word *first_word){
         int num=rand()%3;
         if(num==0){
             sum=point->count;
-            start_point=point->first_tuple;
+            start_point=(Tuple *)point->first_tuple;
         }
         else if(num==1){
             sum=question->count;
-            start_point=question->first_tuple;
+            start_point=(Tuple *)question->first_tuple;
         }
         else{
             sum=esclamation->count;
-            start_point=esclamation->first_tuple;
+            start_point=(Tuple *)esclamation->first_tuple;
         }
     }
     else if(question!=NULL){
         int num=rand()%2;
         if(num==0){
             sum=point->count;
-            start_point=point->first_tuple;
+            start_point=(Tuple *)point->first_tuple;
         }
         else{
             sum=question->count;
-            start_point=question->first_tuple;
+            start_point=(Tuple *)question->first_tuple;
         }
     }
     else if(esclamation!=NULL){
         int num=rand()%2;
         if(num==0){
             sum=point->count;
-            start_point=point->first_tuple;
+            start_point=(Tuple *)point->first_tuple;
         }
         else{
             sum=esclamation->count;
-            start_point=esclamation->first_tuple;
+            start_point=(Tuple *)esclamation->first_tuple;
         }
     }
     else{
         sum=point->count;
-        start_point=point->first_tuple;
+        start_point=(Tuple *)point->first_tuple;
     }
 
 
@@ -76,7 +80,7 @@ Word *random_start_word(Word *first_word){
     double num_r =((float)rand()/(float)(RAND_MAX)) * (1-sum);
     while(num_r-start_point->count>0){
         num_r-=start_point->count;
-        start_point=start_point->next_tuple;
+        start_point=(Tuple *)start_point->next_tuple;
     }
     
 
@@ -131,10 +135,10 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
         }
         strcpy(last_written,start->name);
         num_r =((float)rand()/(float)(RAND_MAX)) * (1-start->count);
-        tuple_pointer=start->first_tuple;
+        tuple_pointer=(Tuple *)start->first_tuple;
         while(num_r-(double)tuple_pointer->count>0){
             num_r=num_r-(double)tuple_pointer->count;
-            tuple_pointer=tuple_pointer->next_tuple;
+            tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         }
         start=search_word(first_word,tuple_pointer->name);
         n_word--;

@@ -26,14 +26,14 @@ void write_csv(Word *first_word,char *outfile){
     // esegue fino alla fine della lista di Word
     while(pointer!=NULL){
         fprintf(file_out,"%s",pointer->name);
-        tuple_pointer=pointer->first_tuple;
+        tuple_pointer=(Tuple *)pointer->first_tuple;
         if((int)tuple_pointer->count%(int)pointer->count==0){
             fprintf(file_out,",%s,%d",tuple_pointer->name,(int)(tuple_pointer->count/pointer->count));
         }
         else{
             fprintf(file_out,",%s,%.4f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
         }
-        tuple_pointer=tuple_pointer->next_tuple;
+        tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         while(tuple_pointer!=NULL){// esegue fino alla fine della lista di Tuple
             if((int)tuple_pointer->count%(int)pointer->count==0){
                 fprintf(file_out,",%s,%d",tuple_pointer->name,(int)(tuple_pointer->count/pointer->count));
@@ -41,9 +41,9 @@ void write_csv(Word *first_word,char *outfile){
             else{
                 fprintf(file_out,",%s,%.4f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
             }
-            tuple_pointer=tuple_pointer->next_tuple;
+            tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         }
         fprintf(file_out,"\n");
-        pointer=pointer->next;
+        pointer=(Word *)pointer->next;
     }
 }

@@ -23,13 +23,13 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
         strcpy(tuple->name,next_wordname);
         tuple->count=1;
         tuple->next_tuple=NULL;
-        pointer->first_tuple=tuple;
+        pointer->first_tuple=(struct Tuple*)tuple;
         return;
     }
     
 
     Tuple *tuple_pointer;
-    tuple_pointer=pointer->first_tuple;
+    tuple_pointer=(Tuple *)pointer->first_tuple;
     /*
     controlla tutta la lista di Tuple per vedere se esiste già una Tupla
     contenente la parola successiva
@@ -49,7 +49,7 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
     strcpy(tuple->name,next_wordname);
     tuple->count=1;
     tuple->next_tuple=NULL;
-    tuple_pointer->next_tuple=tuple;
+    tuple_pointer->next_tuple=(struct Tuple*)tuple;
 }
 
 
@@ -76,13 +76,13 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
         strcpy(tuple->name,next_wordname);
         tuple->count=perc_f;
         tuple->next_tuple=NULL;
-        pointer->first_tuple=tuple;
+        pointer->first_tuple=(struct Tuple*)tuple;
         return;
     }
     
 
     Tuple *tuple_pointer;
-    tuple_pointer=pointer->first_tuple;
+    tuple_pointer=(Tuple *)pointer->first_tuple;
     /*
     controlla tutta la lista di Tuple per vedere se esiste già una Tupla
     contenente la parola successiva
@@ -95,5 +95,5 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
     strcpy(tuple->name,next_wordname);
     tuple->count=perc_f;
     tuple->next_tuple=NULL;
-    tuple_pointer->next_tuple=tuple;
+    tuple_pointer->next_tuple=(struct Tuple*)tuple;
 }
