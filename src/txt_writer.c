@@ -69,7 +69,8 @@ Word *random_start_word(Word *first_word){
         num_r-=start_point->count;
         start_point=start_point->next_tuple;
     }
-    printf("Start:%s\n",start_point->name);
+    
+
     return search_word(first_word,start_point->name);
 }
 
@@ -107,14 +108,19 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     
     // scrive per numword volte una parola e poi randomizza la successiva tra le Tuple collegate
     Tuple *tuple_pointer;
+    char upper[30];
     double num_r;
-    char last_written[30];
+    char last_written[30]="";
     while(n_word>0){
-        /* if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0){
-            strcpy(start->name,)
-        } */
-        printf("%s ",start->name);
-        strspy(last_written,start->name);
+        if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0|| strcmp(last_written,"")==0){
+            strcpy(upper,start->name);
+            upper[0]=upper_lowercase(upper[0]);
+            fprintf(file_out,"%s ",upper);
+        }
+        else{
+            fprintf(file_out,"%s ",start->name);
+        }
+        strcpy(last_written,start->name);
         num_r =(double)rand() / (double)((unsigned)RAND_MAX + 1);
         tuple_pointer=start->first_tuple;
         while(num_r-tuple_pointer->count>0){

@@ -41,3 +41,15 @@ char lower_uppercase(char current_char){
         }
     return current_char;
 }
+
+char upper_lowercase(char current_char){
+        /* 
+    Preso il carattere controlla se è una lettera maiuscola e la trasforma
+    in minuscola
+    */
+    if(current_char>=97 && current_char<=122){
+            return current_char-32;
+        }
+    return current_char;
+
+}

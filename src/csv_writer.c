@@ -17,6 +17,8 @@ void write_csv(Word *first_word,char *outfile){
         exit(0);
     }
 
+    
+
     Word *pointer;
     pointer=first_word;
     Tuple *tuple_pointer;

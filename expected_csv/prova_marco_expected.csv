@@ -1,4 +1,4 @@
-.,ciao,0.5000,come,0.5000
+.,ciao,0.1250,come,0.1250,.,0.7500
 ciao,sono,1
 sono,stato,1
 stato,ieri,1
@@ -11,7 +11,7 @@ fosse,nato,1
 nato,ieri,0.5000,senza,0.5000
 parole,sensate,1
 sensate,!,1
-!,daje,0.5000,ciao,0.5000
+!,daje,1
 daje,come,0.5000,se,0.5000
 se,spigne,1
 spigne,come,1
@@ -19,4 +19,4 @@ senza,pagurozzi,1
 pagurozzi,let',1
 let',s,1
 s,go,1
-go,!,1
+go,.,1

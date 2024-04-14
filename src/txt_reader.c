@@ -108,15 +108,18 @@ void read_txt(Word *first_word,char *filename){
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
         newWord(first_word,word);
         newTuple(first_word,pre_word,word);
-        if(strcmp(word,".")!=0){
-            Word *tmp=first_word->next;
-            newTuple(first_word,word,tmp->name);
-        }
+        Word *tmp=first_word->next;
+        newTuple(first_word,word,tmp->name);
+        
     }
     else{
         if(strcmp(pre_word,".")!=0){
-            Word* pointer=first_word->next;
-            newTuple(first_word,pre_word,pointer->name);
+            Word* tmp=first_word->next;
+            newTuple(first_word,pre_word,tmp->name);
+        }
+        else{
+            Word *tmp=search_word(first_word,".");
+            tmp->count--;
         }
     }
     fclose(file_in);
@@ -126,7 +129,6 @@ void read_txt(Word *first_word,char *filename){
         printf("Il file è vuoto oppure non contiene parole accettate\n");
         exit(0);
     }
-    
     
 
 

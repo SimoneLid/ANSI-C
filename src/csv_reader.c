@@ -82,7 +82,7 @@ void read_csv(Word *first_word,char *filename){
     }
 
     //inizio print
-    Word *pointer;
+    /* Word *pointer;
     pointer=first_word;
     Tuple *tuple_pointer;
 
@@ -97,5 +97,5 @@ void read_csv(Word *first_word,char *filename){
         }
         printf("}\n");
         pointer=pointer->next;
-    }
+    } */
 }

@@ -24,7 +24,6 @@ void newWord(Word *first_word, char wordname[30]){
     */
     Word *pointer;
     pointer=first_word;
-    
     if(strcmp(pointer->name,"")==0){
         strcpy(first_word->name,wordname);
         first_word->count=1;
