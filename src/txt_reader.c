@@ -34,7 +34,7 @@ void read_txt(Word *first_word,char *filename){
         exit(0);
     }
     
-
+    
 
     char ch;
     char word[30]="";
@@ -42,7 +42,6 @@ void read_txt(Word *first_word,char *filename){
     int id_word=0;
     ch=fgetc(file_in);
     while(ch!=EOF){
-        
         ch=lower_uppercase(ch);// *1
         if(is_ascii_accepted(ch)){// *2
             word[id_word]=ch;
@@ -101,6 +100,33 @@ void read_txt(Word *first_word,char *filename){
             strcpy(pre_word,word);
             memset(word,0,30);
             id_word=0;
+            }
+        }
+        else if(ch==-61){
+            char b2;
+            b2=fgetc(file_in);
+            printf("char:%d\n",b2);
+            if(is_ascii_accepted(b2)){
+                b2=lower_uppercase(b2);
+                word[id_word]=ch;
+                word[id_word+1]=b2;
+                id_word+=2;
+            }
+            else{
+                if(strcmp(word,"")!=0){// *5
+                    if(strcmp(word,"'")==0){
+                        memset(word,0,30);
+                        id_word=0;
+                    }
+                    else{
+                    newWord(first_word,word);
+                    newTuple(first_word,pre_word,word);
+                    memset(pre_word,0,30);
+                    strcpy(pre_word,word);
+                    memset(word,0,30);
+                    id_word=0;
+                    }
+                }
             }
         }
         ch=fgetc(file_in);

@@ -5,7 +5,7 @@
 
 #include "tuple.h"
 
-void comp1_mono(char **argv){
+void comp1_mono(char *argv[]){
     char point[30];
     point[0]='.';
     Word *first_word;

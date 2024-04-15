@@ -20,12 +20,12 @@ int main(int argc, char *argv[]){
         comp2_mono(argc,argv);
     }
     else if(flags[1]==1){
-        //printf("Eseguendo compito 1 par\n");
+        printf("Eseguendo compito 1 par\n");
         comp1_mono(argv);
     }
     else{
-        //printf("Eseguendo compito 1 non par\n");
-        comp1_mono(argc, argv);
+        printf("Eseguendo compito 1 non par\n");
+        comp1_mono(argv);
     }
 }
 
