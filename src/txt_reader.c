@@ -20,7 +20,9 @@ void read_txt(Word *first_word,char *filename){
         *4.controlla se il carattere è un "'" e nel caso la parola prima non sia vuota 
             (o composta solo da "'") loattacca alla parola precedente,
             sennò diventa il primo carattere della parola successiva
-        *5.gli unici caratteri rimasti sono le punteggiature da eliminare quindi
+        *5.controlla se il carattere è a due byte (ch=-61) e controlla poi il secondo byte per
+            vedere se è un carattere accettato
+        *6.gli unici caratteri rimasti sono le punteggiature da eliminare quindi
             viene salvata (sempre se non è vuota o solo "'") la parola appena terminata
     Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'")
     Poi chiama la funzione che scrive il file csv
@@ -35,13 +37,14 @@ void read_txt(Word *first_word,char *filename){
     }
     
     
-
+    char b2;
     char ch;
     char word[30]="";
     char pre_word[30]=".";
     int id_word=0;
     ch=fgetc(file_in);
     while(ch!=EOF){
+        //printf("ch:%d\n",ch);
         ch=lower_uppercase(ch);// *1
         if(is_ascii_accepted(ch)){// *2
             word[id_word]=ch;
@@ -88,45 +91,43 @@ void read_txt(Word *first_word,char *filename){
                 id_word=1;
             }
         }
-        else if(strcmp(word,"")!=0){// *5
-            if(strcmp(word,"'")==0){
-                memset(word,0,30);
-                id_word=0;
-            }
-            else{
-            newWord(first_word,word);
-            newTuple(first_word,pre_word,word);
-            memset(pre_word,0,30);
-            strcpy(pre_word,word);
-            memset(word,0,30);
-            id_word=0;
-            }
-        }
-        else if(ch==-61){
-            char b2;
+        else if(ch==-61){// *5
             b2=fgetc(file_in);
-            printf("char:%d\n",b2);
-            if(is_ascii_accepted(b2)){
+            if(is_ascii_accepted_2b(b2)){
                 b2=lower_uppercase(b2);
                 word[id_word]=ch;
                 word[id_word+1]=b2;
                 id_word+=2;
             }
             else{
-                if(strcmp(word,"")!=0){// *5
+                if(strcmp(word,"")!=0){
                     if(strcmp(word,"'")==0){
                         memset(word,0,30);
                         id_word=0;
                     }
                     else{
-                    newWord(first_word,word);
-                    newTuple(first_word,pre_word,word);
-                    memset(pre_word,0,30);
-                    strcpy(pre_word,word);
-                    memset(word,0,30);
-                    id_word=0;
+                        newWord(first_word,word);
+                        newTuple(first_word,pre_word,word);
+                        memset(pre_word,0,30);
+                        strcpy(pre_word,word);
+                        memset(word,0,30);
+                        id_word=0;
                     }
                 }
+            }
+        }
+        else if(strcmp(word,"")!=0){// *6
+            if(strcmp(word,"'")==0){
+                memset(word,0,30);
+                id_word=0;
+            }
+            else{
+                newWord(first_word,word);
+                newTuple(first_word,pre_word,word);
+                memset(pre_word,0,30);
+                strcpy(pre_word,word);
+                memset(word,0,30);
+                id_word=0;
             }
         }
         ch=fgetc(file_in);

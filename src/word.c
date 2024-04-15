@@ -22,6 +22,9 @@ void newWord(Word *first_word, char wordname[30]){
     sennò scorre fino alla fine della lista e aggiunge una nuova struttura Word
     che viene collegata come successiva dell'ultima
     */
+
+    //printf("word:%s\n",wordname);
+
     Word *pointer;
     pointer=first_word;
     if(strcmp(pointer->name,"")==0){

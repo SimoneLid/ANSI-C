@@ -127,7 +127,12 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     while(n_word>0){
         if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0){
             strcpy(upper,start->name);
-            upper[0]=upper_lowercase(upper[0]);
+            if(upper[0]==-61){
+                upper[1]=upper_lowercase(upper[1]);
+            }
+            else{
+                upper[0]=upper_lowercase(upper[0]);
+            }
             fprintf(file_out,"%s ",upper);
         }
         else{
