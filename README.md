@@ -63,20 +63,20 @@ Previsioni del tempo incerto ! Cosa dicono le previsioni del tempo
 Il programma utilizza una linked list di parole (Word), ad ognuna è associata un'altra linked list contenente le parole (chiamate Tuple) che appaiono successive a quella con la frequenza.<br>
 Una rappresentazione grafica dell'architettura è:
 ```text
-+-----+     +-----+     +-----+
-|WORD | --> |WORD | --> |WORD | --> ...
-+-----+     +-----+     +-----+
-   |           |           |
-   V           V           V
-+-----+     +-----+     +-----+
-|TUPLA|     |TUPLA|     |TUPLA|
-+-----+     +-----+     +-----+
-   |           |           |
-   V           V           V
-+-----+     +-----+     +-----+
-|TUPLA|     |TUPLA|     |TUPLA|
-+-----+     +-----+     +-----+
-   |           |           |
-   V           V           V
-  ...         ...         ...
++--WORD---+     +--WORD---+     +--WORD---+
+|         | --> |         | --> |         | --> ...
++---------+     +---------+     +---------+
+     |               |               |
+     V               V               V
++--TUPLA--+     +--TUPLA--+     +--TUPLA--+
+|         |     |         |     |         |
++---------+     +---------+     +---------+
+     |               |               |
+     V               V               V
++--TUPLA--+     +--TUPLA--+     +--TUPLA--+
+|         |     |         |     |         |
++---------+     +---------+     +---------+
+     |               |               |
+     V               V               V
+    ...             ...             ...
 ```
