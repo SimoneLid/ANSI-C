@@ -13,16 +13,33 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
     aumentando solo il counter, se non c'è viene inserita alla fine della lista
     */
     
-    Word *pointer;
-    pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
+    Word *pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
+    pointer->count++;
     
+    Word *newWord=search_word(first_word,next_wordname);// ritorna il puntatore alla parola successiva
+    
+    // se la parola successiva non esiste allora la crea come Word successiva all'ultima
+    if(newWord==NULL){
+        newWord=first_word;
+        while(newWord->next!=NULL){
+            newWord=(struct Word*)newWord->next;
+        }
+        Word *addedWord = (Word*) calloc(1,sizeof(Word));
+        addedWord->count=0;
+        strcpy(addedWord->name,next_wordname);
+        addedWord->first_tuple=NULL;
+        addedWord->next=NULL;
+        newWord->next=(struct Word*)addedWord;
+    }
 
-    Tuple *tuple = (Tuple*) malloc(sizeof(Tuple));
+
+    Tuple *tuple = (Tuple*) calloc(1,sizeof(Tuple));
     // controlla se questa è la prima tupla e ci inserisce i valori
     if(pointer->first_tuple==NULL){
         strcpy(tuple->name,next_wordname);
         tuple->count=1;
         tuple->next_tuple=NULL;
+        tuple->self_word=NULL;
         pointer->first_tuple=(struct Tuple*)tuple;
         return;
     }
@@ -67,15 +84,33 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
 
     Word *pointer;
     pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
-    
-    pointer->count-=perc_f;
+    pointer->count+=perc_f;
 
-    Tuple *tuple = (Tuple*) malloc(sizeof(Tuple));
+
+    Word *newWord=search_word(first_word,next_wordname);// ritorna il puntatore alla parola successiva
+    
+    // se la parola successiva non esiste allora la crea come Word successiva all'ultima
+    if(newWord==NULL){
+        Word *lastWord=first_word;
+        while(lastWord->next!=NULL){
+            lastWord=(struct Word*)lastWord->next;
+        }
+        newWord = (Word*) calloc(1,sizeof(Word));
+        newWord->count=0;
+        strcpy(newWord->name,next_wordname);
+        newWord->first_tuple=NULL;
+        newWord->next=NULL;
+        lastWord->next=(struct Word*)newWord;
+    }
+
+
+    Tuple *tuple = (Tuple*) calloc(1,sizeof(Tuple));
     // controlla se questa è la prima tupla e ci inserisce i valori
     if(pointer->first_tuple==NULL){
         strcpy(tuple->name,next_wordname);
         tuple->count=perc_f;
         tuple->next_tuple=NULL;
+        tuple->self_word=(struct Word*)newWord;
         pointer->first_tuple=(struct Tuple*)tuple;
         return;
     }
@@ -95,5 +130,6 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
     strcpy(tuple->name,next_wordname);
     tuple->count=perc_f;
     tuple->next_tuple=NULL;
+    tuple->self_word=(struct Word*)newWord;
     tuple_pointer->next_tuple=(struct Tuple*)tuple;
 }

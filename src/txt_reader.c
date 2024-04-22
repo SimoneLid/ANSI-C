@@ -52,13 +52,11 @@ void read_txt(Word *first_word,char *filename){
         }
         else if(is_punct_accepted(ch)){// *3
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-                newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 word[0]=ch;
                 word[1]='\0';
-                newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
@@ -68,7 +66,6 @@ void read_txt(Word *first_word,char *filename){
             else{
                 word[0]=ch;
                 word[1]='\0';
-                newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
@@ -79,7 +76,6 @@ void read_txt(Word *first_word,char *filename){
         else if(ch==39){// *4
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 word[id_word]=ch;
-                newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
@@ -106,7 +102,6 @@ void read_txt(Word *first_word,char *filename){
                         id_word=0;
                     }
                     else{
-                        newWord(first_word,word);
                         newTuple(first_word,pre_word,word);
                         memset(pre_word,0,30);
                         strcpy(pre_word,word);
@@ -122,7 +117,6 @@ void read_txt(Word *first_word,char *filename){
                 id_word=0;
             }
             else{
-                newWord(first_word,word);
                 newTuple(first_word,pre_word,word);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
@@ -138,7 +132,6 @@ void read_txt(Word *first_word,char *filename){
     la inserisce nella lista escludendo il punto
     */
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-        newWord(first_word,word);
         newTuple(first_word,pre_word,word);
         Word *tmp=(Word *)first_word->next;
         newTuple(first_word,word,tmp->name);
@@ -148,9 +141,6 @@ void read_txt(Word *first_word,char *filename){
             Word* tmp=(Word *)first_word->next;
             newTuple(first_word,pre_word,tmp->name);
         }
-        else{
-            first_word->count--;
-        }
     }
     fclose(file_in);
 
@@ -159,4 +149,22 @@ void read_txt(Word *first_word,char *filename){
         printf("Il file è vuoto oppure non contiene parole accettate\n");
         exit(0);
     }
+
+    //inizio print
+    /* Word *pointer;
+    pointer=first_word;
+    Tuple *tuple_pointer;
+
+    while(pointer!=NULL){
+        printf("[%s,%.4f]={",pointer->name,pointer->count);
+        tuple_pointer=pointer->first_tuple;
+        printf("[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
+        tuple_pointer=tuple_pointer->next_tuple;
+        while(tuple_pointer!=NULL){
+            printf(",[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
+            tuple_pointer=tuple_pointer->next_tuple;
+        }
+        printf("}\n");
+        pointer=pointer->next;
+    } */
 }

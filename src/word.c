@@ -10,8 +10,9 @@ Word *create_first_word(char word[30]){
     */
     Word *first_word = (Word*) malloc(sizeof(Word));
     strcpy(first_word->name,word);
-    first_word->count=1;
+    first_word->count=0;
     first_word->next=NULL;
+    first_word->first_tuple=NULL;
     return first_word;
 }
 

@@ -5,6 +5,7 @@ typedef struct
     char name[30];
     float count;
     struct Tuple* next_tuple;
+    struct Word* self_word;
 }Tuple;
 
 void newTuple(Word* first_word, char wordname[30], char next_wordname[30]);

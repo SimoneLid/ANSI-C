@@ -77,7 +77,7 @@ Word *random_start_word(Word *first_word){
 
 
     // randomizza una tra le tuple collegate alla punteggiatura selezionata casualmente
-    double num_r =((float)rand()/(float)(RAND_MAX)) * (1-sum);
+    double num_r =((float)rand()/(float)(RAND_MAX)) * sum;
     while(num_r-start_point->count>0){
         num_r-=start_point->count;
         start_point=(Tuple *)start_point->next_tuple;
@@ -139,13 +139,13 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             fprintf(file_out,"%s ",start->name);
         }
         strcpy(last_written,start->name);
-        num_r =((float)rand()/(float)(RAND_MAX)) * (1-start->count);
+        num_r =((float)rand()/(float)(RAND_MAX)) * start->count;
         tuple_pointer=(Tuple *)start->first_tuple;
         while(num_r-(double)tuple_pointer->count>0){
             num_r=num_r-(double)tuple_pointer->count;
             tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         }
-        start=search_word(first_word,tuple_pointer->name);
+        start=tuple_pointer->self_word;
         n_word--;
     }
 

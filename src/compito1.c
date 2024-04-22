@@ -6,8 +6,7 @@
 #include "tuple.h"
 
 void comp1_mono(char *argv[]){
-    char point[30];
-    point[0]='.';
+    char point[30]=".";
     Word *first_word;
     first_word=create_first_word(point);
     read_txt(first_word,argv[2]);
