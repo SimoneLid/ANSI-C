@@ -26,7 +26,7 @@ void write_csv(Word *first_word,char *outfile){
             fprintf(file_out,",%s,%d",tuple_pointer->name,(int)(tuple_pointer->count/pointer->count));
         }
         else{
-            fprintf(file_out,",%s,%.4f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
+            fprintf(file_out,",%s,%f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
         }
         tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         while(tuple_pointer!=NULL){// esegue fino alla fine della lista di Tuple
@@ -34,7 +34,7 @@ void write_csv(Word *first_word,char *outfile){
                 fprintf(file_out,",%s,%d",tuple_pointer->name,(int)(tuple_pointer->count/pointer->count));
             }
             else{
-                fprintf(file_out,",%s,%.4f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
+                fprintf(file_out,",%s,%f",tuple_pointer->name,(tuple_pointer->count/pointer->count));
             }
             tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         }

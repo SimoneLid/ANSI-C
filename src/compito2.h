@@ -4,7 +4,6 @@
 #include <string.h>
 
 #include "csv_reader.h"
-#include "txt_writer.h"
 
 
 void comp2_mono(char *input, char *output, int n_word, char start_word[30]);

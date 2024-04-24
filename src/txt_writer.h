@@ -4,8 +4,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "tuple.h"
-#include "ascii_control.h"
+#include "compito1.h"
 
 
 Word *random_start_word(Word *first_word);

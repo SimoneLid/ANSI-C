@@ -4,7 +4,6 @@
 #include <string.h>
 #include <bits/getopt_core.h>
 
-#include "compito1.h"
 #include "compito2.h"
 
 

@@ -90,6 +90,10 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     e scrive il testo random sul file txt
     */
 
+    if(n_word<=0){
+        printf("Numero di parole non insierito o non valido\n");
+        exit(1);
+    }
     
     FILE *file_out=fopen(outfile,"w");
     if(file_out==0){
@@ -119,6 +123,7 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     char upper[30];
     double num_r;
     char last_written[30]=".";
+    int n_word_write=0;
     while(n_word>0){
         if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0){
             strcpy(upper,start->name);
@@ -134,14 +139,23 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             fprintf(file_out,"%s ",start->name);
         }
         strcpy(last_written,start->name);
-        num_r =((float)rand()/(float)(RAND_MAX)) * start->count;
+        num_r =((float)rand()/(RAND_MAX)) * start->count;
         tuple_pointer=(Tuple *)start->first_tuple;
-        while(num_r-(double)tuple_pointer->count>0){
-            num_r=num_r-(double)tuple_pointer->count;
-            tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
+        while(num_r-tuple_pointer->count>0){
+            num_r=num_r-tuple_pointer->count;
+            if(tuple_pointer->next_tuple!=NULL){
+                tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
+            }
+            else{
+                break;
+            }
         }
         start=(Word *)tuple_pointer->self_word;
         n_word--;
+        n_word_write++;
+        if(n_word_write%15==0){
+            fprintf(file_out,"\n");
+        }
     }
 
 
