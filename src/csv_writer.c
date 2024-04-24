@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
+#include "csv_writer.h"
 
-
-#include "tuple.h"
 
 void write_csv(Word *first_word,char *outfile){
     /* 
@@ -13,7 +8,7 @@ void write_csv(Word *first_word,char *outfile){
     */
     FILE *file_out=fopen(outfile,"w");
     if(file_out==0){
-        printf("Impossibile aprire il file di output\n");
+        printf("Il file di output non esiste!\n");
         exit(0);
     }
 

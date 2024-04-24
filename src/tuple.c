@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "tuple.h"
+
 
 void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
     /* 
@@ -22,7 +19,7 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
     if(newWord==NULL){
         newWord=first_word;
         while(newWord->next!=NULL){
-            newWord=(struct Word*)newWord->next;
+            newWord=(Word*)newWord->next;
         }
         Word *addedWord = (Word*) calloc(1,sizeof(Word));
         addedWord->count=0;
@@ -93,7 +90,7 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
     if(newWord==NULL){
         Word *lastWord=first_word;
         while(lastWord->next!=NULL){
-            lastWord=(struct Word*)lastWord->next;
+            lastWord=(Word*)lastWord->next;
         }
         newWord = (Word*) calloc(1,sizeof(Word));
         newWord->count=0;

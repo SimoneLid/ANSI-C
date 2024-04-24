@@ -1,5 +1,4 @@
-
-#include <stdbool.h>
+#include "ascii_control.h"
 
 
 bool is_ascii_accepted(char current_char){

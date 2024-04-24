@@ -1,10 +1,5 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "txt_writer.h"
 
-#include "tuple.h"
 
 Word *random_start_word(Word *first_word){
     /* 
@@ -88,7 +83,7 @@ Word *random_start_word(Word *first_word){
 }
 
 
-void write_random_text(Word *first_word, char *outfile, int n_word, char start_word[30], bool exist_start_word){
+void write_random_text(Word *first_word, char *outfile, int n_word, char start_word[30]){
     /* 
     Funzione che prende in input un file su cui scrivere, la prima parola
     della lista puntata, il numero di parole da scrivere e la possibile prima parola
@@ -98,22 +93,22 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     
     FILE *file_out=fopen(outfile,"w");
     if(file_out==0){
-        printf("Impossibile aprire il file di output\n");
+        printf("Il file di output non esiste!\n");
         exit(0);
     }
     
     // se è stata data la prima parola da riga di comando vede se c'è nel csv
     Word *start;
-    if(exist_start_word){
+    if (start_word!=NULL){
         start=search_word(first_word,start_word);
         if(start==NULL){
-            exist_start_word=false;
+            start_word=NULL;
         }
     }
 
 
     // se non è stata data una prima parola la randomizza
-    if(!exist_start_word){
+    if(start_word==NULL){
         start=random_start_word(first_word);
         printf("Parola iniziale non inserita o non presente!\nTesto creato partendo dalla parola random: %s\n",start->name);
     }
@@ -145,7 +140,7 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             num_r=num_r-(double)tuple_pointer->count;
             tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
         }
-        start=tuple_pointer->self_word;
+        start=(Word *)tuple_pointer->self_word;
         n_word--;
     }
 
