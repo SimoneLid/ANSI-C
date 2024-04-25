@@ -5,7 +5,7 @@ le,previsioni,1
 previsioni,del,0.666667,di,0.333333
 del,tempo,1
 tempo,?,0.333333,di,0.333333,incerto,0.333333
-?,previsioni,0.500000,cosa,0.500000
+?,previsioni,0.500000,?,0.500000
 di,oggi,0.500000,domani,0.500000
 oggi,tempo,1
 incerto,!,1

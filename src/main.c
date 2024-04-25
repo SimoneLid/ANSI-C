@@ -71,7 +71,7 @@ int main(int argc, char *argv[]){
         comp2_mono(input,output,n_word,start_word);
     }
     else if(comp_flag==1 && par){
-        comp1_mono(input,output);
+        comp1_par(input,output);
     }
     else{
         comp1_mono(input,output);

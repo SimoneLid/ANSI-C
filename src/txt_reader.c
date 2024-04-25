@@ -1,7 +1,19 @@
 #include "txt_reader.h"
 
+void controlTuple(Word *first_word, char preword[30], char word[30],bool par,int pipes[2]){
+    if(par){
+        write(pipes[1],preword,30);
+        write(pipes[1],word,30);
+        printf("Scritto:%s,%s\n",preword,word);
+    }
+    else{
+        newTuple(first_word,preword,word);
+    }
+}
 
-void read_txt(Word *first_word,char *filename){
+
+
+void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
     /* 
     La funzione prende in input il nome del file txt e lo apre
     Dopo legge ogni carattere del testo e controlla diverse cose:
@@ -46,12 +58,12 @@ void read_txt(Word *first_word,char *filename){
         }
         else if(is_punct_accepted(ch)){// *3
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-                newTuple(first_word,pre_word,word);
+                controlTuple(first_word,pre_word,word,par,pipes);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 word[0]=ch;
                 word[1]='\0';
-                newTuple(first_word,pre_word,word);
+                controlTuple(first_word,pre_word,word,par,pipes);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -60,7 +72,7 @@ void read_txt(Word *first_word,char *filename){
             else{
                 word[0]=ch;
                 word[1]='\0';
-                newTuple(first_word,pre_word,word);
+                controlTuple(first_word,pre_word,word,par,pipes);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -70,7 +82,7 @@ void read_txt(Word *first_word,char *filename){
         else if(ch==39){// *4
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 word[id_word]=ch;
-                newTuple(first_word,pre_word,word);
+                controlTuple(first_word,pre_word,word,par,pipes);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -96,7 +108,7 @@ void read_txt(Word *first_word,char *filename){
                         id_word=0;
                     }
                     else{
-                        newTuple(first_word,pre_word,word);
+                        controlTuple(first_word,pre_word,word,par,pipes);
                         memset(pre_word,0,30);
                         strcpy(pre_word,word);
                         memset(word,0,30);
@@ -111,7 +123,7 @@ void read_txt(Word *first_word,char *filename){
                 id_word=0;
             }
             else{
-                newTuple(first_word,pre_word,word);
+                controlTuple(first_word,pre_word,word,par,pipes);
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -126,22 +138,22 @@ void read_txt(Word *first_word,char *filename){
     la inserisce nella lista escludendo il punto
     */
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
-        newTuple(first_word,pre_word,word);
+        controlTuple(first_word,pre_word,word,par,pipes);
         Word *tmp=(Word *)first_word->next;
-        newTuple(first_word,word,tmp->name);
+        controlTuple(first_word,word,tmp->name,par,pipes);
     }
     else{
         if(strcmp(pre_word,".")!=0){
             Word* tmp=(Word *)first_word->next;
-            newTuple(first_word,pre_word,tmp->name);
+            controlTuple(first_word,pre_word,tmp->name,par,pipes);
         }
     }
     fclose(file_in);
 
-    // controlla che esista almeno una parola dopo "."
-    if(first_word->next==NULL){
-        printf("Il file è vuoto oppure non contiene parole accettate\n");
-        exit(0);
+
+    if(par){
+        close(pipes[1]);
+        wait();
     }
 
     //inizio print
