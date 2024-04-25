@@ -1,6 +1,18 @@
 #include "tuple.h"
 
 
+void controlTuple(Word *first_word, char preword[30], char word[30],bool par,int pipes[2]){
+    if(par){
+        write(pipes[1],preword,30);
+        write(pipes[1],word,30);
+        //printf("Scritto:%s,%s\n",preword,word);
+    }
+    else{
+        newTuple(first_word,preword,word);
+    }
+}
+
+
 void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
     /* 
     La funzione prende in input il puntatore alla prima parola della lista puntata, cerca

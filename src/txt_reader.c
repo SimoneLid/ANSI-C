@@ -1,17 +1,5 @@
 #include "txt_reader.h"
 
-void controlTuple(Word *first_word, char preword[30], char word[30],bool par,int pipes[2]){
-    if(par){
-        write(pipes[1],preword,30);
-        write(pipes[1],word,30);
-        printf("Scritto:%s,%s\n",preword,word);
-    }
-    else{
-        newTuple(first_word,preword,word);
-    }
-}
-
-
 
 void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
     /* 
@@ -43,6 +31,8 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
     }
     
     
+    bool is_first_word=true;
+    char prima_word[30];
     char b2;
     char ch;
     char word[30]="";
@@ -59,6 +49,10 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
         else if(is_punct_accepted(ch)){// *3
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 controlTuple(first_word,pre_word,word,par,pipes);
+                if(is_first_word){
+                    strcpy(prima_word,word);
+                    is_first_word=false;
+                }
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 word[0]=ch;
@@ -73,6 +67,10 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
                 word[0]=ch;
                 word[1]='\0';
                 controlTuple(first_word,pre_word,word,par,pipes);
+                if(is_first_word){
+                    strcpy(prima_word,word);
+                    is_first_word=false;
+                }
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -83,6 +81,10 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
             if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
                 word[id_word]=ch;
                 controlTuple(first_word,pre_word,word,par,pipes);
+                if(is_first_word){
+                    strcpy(prima_word,word);
+                    is_first_word=false;
+                }
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -109,6 +111,10 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
                     }
                     else{
                         controlTuple(first_word,pre_word,word,par,pipes);
+                        if(is_first_word){
+                            strcpy(prima_word,word);
+                            is_first_word=false;
+                        }
                         memset(pre_word,0,30);
                         strcpy(pre_word,word);
                         memset(word,0,30);
@@ -124,6 +130,10 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
             }
             else{
                 controlTuple(first_word,pre_word,word,par,pipes);
+                if(is_first_word){
+                    strcpy(prima_word,word);
+                    is_first_word=false;
+                }
                 memset(pre_word,0,30);
                 strcpy(pre_word,word);
                 memset(word,0,30);
@@ -139,13 +149,15 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
     */
     if(strcmp(word,"")!=0 && strcmp(word,"'")!=0){
         controlTuple(first_word,pre_word,word,par,pipes);
-        Word *tmp=(Word *)first_word->next;
-        controlTuple(first_word,word,tmp->name,par,pipes);
+        if(is_first_word){
+            strcpy(prima_word,word);
+            is_first_word=false;
+        }
+        controlTuple(first_word,word,prima_word,par,pipes);
     }
     else{
         if(strcmp(pre_word,".")!=0){
-            Word* tmp=(Word *)first_word->next;
-            controlTuple(first_word,pre_word,tmp->name,par,pipes);
+            controlTuple(first_word,pre_word,prima_word,par,pipes);
         }
     }
     fclose(file_in);
@@ -153,7 +165,7 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
 
     if(par){
         close(pipes[1]);
-        wait();
+        wait(NULL);
     }
 
     //inizio print

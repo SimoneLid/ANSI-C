@@ -35,7 +35,7 @@ void comp1_par(char *input, char *output){
                 break;
             }
             read(pipes[0],postword,30);
-            printf("Letto:%s,%s\n",preword,postword);
+            //printf("Letto:%s,%s\n",preword,postword);
             newTuple(first_word,preword,postword);
         }
 
@@ -46,7 +46,7 @@ void comp1_par(char *input, char *output){
         }
         
         if((pid=fork())>0){
-            wait();
+            wait(NULL);
         }
         else{
             write_csv(first_word,output);
