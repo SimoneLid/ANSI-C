@@ -7,3 +7,5 @@
 
 
 void comp2_mono(char *input, char *output, int n_word, char start_word[30]);
+
+void comp2_par(char *input, char *output, int n_word, char start_word[30]);

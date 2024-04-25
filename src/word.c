@@ -1,10 +1,8 @@
 #include "word.h"
 
 
+// Funzione che crea la prima Word della lista puntata e ritorna il puntatore
 Word *create_first_word(char word[30]){
-    /* 
-    Funzione che crea la prima Word della lista puntata e ritorna il puntatore
-    */
     Word *first_word = (Word*) malloc(sizeof(Word));
     strcpy(first_word->name,word);
     first_word->count=0;
@@ -14,11 +12,11 @@ Word *create_first_word(char word[30]){
 }
 
 
+/* 
+Dato in input il puntatore alla prima parola della lista, ritorna
+il puntatore alla Word contnente la parola cercata
+*/
 Word *search_word(Word *first_word, char wordname[30]){
-    /* 
-    Dato in input il puntatore alla prima parola della lista, ritorna
-    il puntatore alla Word contnente la parola cercata
-    */
     Word *pointer;
     pointer=first_word;
 

@@ -1,6 +1,9 @@
 #include "compito1.h"
 
-
+/*
+Inizializza il compito 1 monoprocesso creando la linked list e lanciando
+la funzione che legge il file txt e scrive il file csv
+*/
 void comp1_mono(char *input, char *output){
     char point[30]=".";
     Word *first_word=create_first_word(point);
@@ -16,6 +19,11 @@ void comp1_mono(char *input, char *output){
 }
 
 
+
+/*
+Inizializza il compito 1 multiprocesso creando la linked list e i tre processi
+che comunicheranno tramite un pipe creato
+*/
 void comp1_par(char *input, char *output){
     char point[30]=".";
     Word *first_word=create_first_word(point);
@@ -35,7 +43,6 @@ void comp1_par(char *input, char *output){
                 break;
             }
             read(pipes[0],postword,30);
-            //printf("Letto:%s,%s\n",preword,postword);
             newTuple(first_word,preword,postword);
         }
 

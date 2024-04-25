@@ -1,11 +1,14 @@
 #include "tuple.h"
 
 
+/*
+Funzione che controlla se il programma è eseguito multiprocesso o no.
+Nel caso sia eseguito multiprocesso scrive nel pipe, sennò chiama la funzione newTuple
+*/
 void controlTuple(Word *first_word, char preword[30], char word[30],bool par,int pipes[2]){
     if(par){
         write(pipes[1],preword,30);
         write(pipes[1],word,30);
-        //printf("Scritto:%s,%s\n",preword,word);
     }
     else{
         newTuple(first_word,preword,word);
@@ -13,15 +16,30 @@ void controlTuple(Word *first_word, char preword[30], char word[30],bool par,int
 }
 
 
+/*
+La funzione fa la stessa cosa di controlTuple, ma prende anche una percentuale per poter poi
+chiamare NewTuple_perc
+*/
+void controlTuple_perc(Word *first_word, char preword[30], char word[30],char perc[30],bool par,int pipes[2]){
+    if(par){
+        write(pipes[1],preword,30);
+        write(pipes[1],word,30);
+        write(pipes[1],perc,30);
+    }
+    else{
+        newTuple_perc(first_word,preword,word,perc);
+    }
+}
+
+
+/* 
+La funzione prende in input il puntatore alla prima parola della lista puntata, cerca
+all'interno il nome della parola precedente (sicuramente presente) e nel caso in cui questa sia
+la prima Tupla riferita a quella parola la inserisce in word->first_tuple, sennò scorre
+tutte le tuple presenti per controllare se ce ne sia una con la parola sucessiva, 
+aumentando solo il counter, se non c'è viene inserita alla fine della lista
+*/
 void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
-    /* 
-    La funzione prende in input il puntatore alla prima parola della lista puntata, cerca
-    all'interno il nome della parola precedente (sicuramente presente) e nel caso in cui questa sia
-    la prima Tupla riferita a quella parola la inserisce in word->first_tuple, sennò scorre
-    tutte le tuple presenti per controllare se ce ne sia una con la parola sucessiva, 
-    aumentando solo il counter, se non c'è viene inserita alla fine della lista
-    */
-    
     Word *pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
     pointer->count++;
     
@@ -79,12 +97,12 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
 }
 
 
-void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], char perc[30]){
-    /* 
-    La funzione fa la stessa cosa di newTuple ma prende in input anche una percentuale
-    da inserire come valore nella tupla
-    */
 
+/* 
+La funzione fa la stessa cosa di newTuple ma prende in input anche una percentuale
+da inserire come valore nella tupla
+*/
+void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], char perc[30]){
     //trasforma la probabilità in float
     float perc_f;
     perc_f=atof(perc);

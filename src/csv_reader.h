@@ -6,4 +6,4 @@
 #include "txt_writer.h"
 
 
-void read_csv(Word *first_word,char *filename);
+void read_csv(Word *first_word,char *filename,bool par,int pipes[2]);

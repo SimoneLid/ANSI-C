@@ -1,28 +1,26 @@
 #include "txt_reader.h"
 
 
+/* 
+La funzione prende in input il nome del file txt e lo apre.
+Dopo legge ogni carattere del testo e controlla diverse cose:
+    *1.controlla se è una lettera maiuscola e in caso la fa diventare minuscola
+    *2.controlla se il carattere è un carattere accettato nelle parole e lo inserisce
+        nella parola corrente
+    *3.controlla se il carattere è una punteggiatura che termina una frase e 
+        salva (se non è vuota o solo "'") la parola precedente (ora terminata) e la
+        punteggiatura come parola separata.
+    *4.controlla se il carattere è un "'" e nel caso la parola prima non sia vuota 
+        (o composta solo da "'") loattacca alla parola precedente,
+        sennò diventa il primo carattere della parola successiva
+    *5.controlla se il carattere è a due byte (ch=-61) e controlla poi il secondo byte per
+        vedere se è un carattere accettato
+    *6.gli unici caratteri rimasti sono le punteggiature da eliminare quindi
+        viene salvata (sempre se non è vuota o solo "'") la parola appena terminata
+Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'").
+Infine l'ultima parola viene inserita come precedente alla prima (se non è ".").
+*/
 void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
-    /* 
-    La funzione prende in input il nome del file txt e lo apre
-    Dopo legge ogni carattere del testo e controlla diverse cose:
-        *1.controlla se è una lettera maiuscola e in caso la fa diventare minuscola
-        *2.controlla se il carattere è un carattere accettato nelle parole e lo inserisce
-            nella parola corrente
-        *3.controlla se il carattere è una punteggiatura che termina una frase e 
-            salva (se non è vuota o solo "'") la parola precedente (ora terminata) e la
-            punteggiatura come parola separata.
-        *4.controlla se il carattere è un "'" e nel caso la parola prima non sia vuota 
-            (o composta solo da "'") loattacca alla parola precedente,
-            sennò diventa il primo carattere della parola successiva
-        *5.controlla se il carattere è a due byte (ch=-61) e controlla poi il secondo byte per
-            vedere se è un carattere accettato
-        *6.gli unici caratteri rimasti sono le punteggiature da eliminare quindi
-            viene salvata (sempre se non è vuota o solo "'") la parola appena terminata
-    Alla fine del while viene salvata anche l'ultima parola (sempre se non è vuota o solo "'")
-    Poi chiama la funzione che scrive il file csv
-    */
-
-
     // apre e controlla che il file esista
     FILE *file_in=fopen(filename,"r");
     if(file_in==0){
@@ -40,7 +38,6 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
     int id_word=0;
     ch=fgetc(file_in);
     while(ch!=EOF){
-        //printf("ch:%d\n",ch);
         ch=lower_uppercase(ch);// *1
         if(is_ascii_accepted(ch)){// *2
             word[id_word]=ch;
@@ -167,22 +164,4 @@ void read_txt(Word *first_word,char *filename,bool par,int pipes[2]){
         close(pipes[1]);
         wait(NULL);
     }
-
-    //inizio print
-    /* Word *pointer;
-    pointer=first_word;
-    Tuple *tuple_pointer;
-
-    while(pointer!=NULL){
-        printf("[%s,%.4f]={",pointer->name,pointer->count);
-        tuple_pointer=pointer->first_tuple;
-        printf("[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
-        tuple_pointer=tuple_pointer->next_tuple;
-        while(tuple_pointer!=NULL){
-            printf(",[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
-            tuple_pointer=tuple_pointer->next_tuple;
-        }
-        printf("}\n");
-        pointer=pointer->next;
-    } */
 }

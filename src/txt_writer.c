@@ -1,13 +1,12 @@
 #include "txt_writer.h"
 
 
+/* 
+Funzione che controlla se ci sono le parole ".","!" e "?" e in base a quante ce ne sono
+tra le parole del csv randomizza una di quelle presenti e scrive una parola a caso
+tra le successive di quella scelta
+*/
 Word *random_start_word(Word *first_word){
-    /* 
-    Funzione che controlla se ci sono le parole ".","!" e "?" e in base a quante ce ne sono
-    tra le parole del csv randomizza una di quelle presenti e scrive una parola a caso
-    tra le successive di quella scelta
-    */
-
     // crea un seed per non avere gli stessi numeri random
     srand(time(NULL));
 
@@ -83,13 +82,12 @@ Word *random_start_word(Word *first_word){
 }
 
 
+/* 
+Funzione che prende in input un file su cui scrivere, la prima parola
+della lista puntata, il numero di parole da scrivere e la possibile prima parola
+e scrive il testo random sul file txt
+*/
 void write_random_text(Word *first_word, char *outfile, int n_word, char start_word[30]){
-    /* 
-    Funzione che prende in input un file su cui scrivere, la prima parola
-    della lista puntata, il numero di parole da scrivere e la possibile prima parola
-    e scrive il testo random sul file txt
-    */
-
     if(n_word<=0){
         printf("Numero di parole non insierito o non valido\n");
         exit(1);
@@ -97,7 +95,7 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     
     FILE *file_out=fopen(outfile,"w");
     if(file_out==0){
-        printf("Il file di output non esiste!\n");
+        printf("Errore nell'apertura del file di output!\n");
         exit(0);
     }
     
@@ -125,6 +123,7 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     char last_written[30]=".";
     int n_word_write=0;
     while(n_word>0){
+        // controlla se l'ultima parola è una punteggiatura e rende maiuscola la lettera dopo
         if(strcmp(last_written,".")==0 || strcmp(last_written,"!")==0 || strcmp(last_written,"?")==0){
             strcpy(upper,start->name);
             if(upper[0]==-61){
@@ -139,15 +138,14 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             fprintf(file_out,"%s ",start->name);
         }
         strcpy(last_written,start->name);
+        // randomizza un numero e lo sottrae con le probabilità delle singole Tuple finchè
+        // non arriva a 0
         num_r =((float)rand()/(RAND_MAX)) * start->count;
         tuple_pointer=(Tuple *)start->first_tuple;
         while(num_r-tuple_pointer->count>0){
             num_r=num_r-tuple_pointer->count;
             if(tuple_pointer->next_tuple!=NULL){
                 tuple_pointer=(Tuple *)tuple_pointer->next_tuple;
-            }
-            else{
-                break;
             }
         }
         start=(Word *)tuple_pointer->self_word;
@@ -157,10 +155,6 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
             fprintf(file_out,"\n");
         }
     }
-
-
-
-    
 }
 
 

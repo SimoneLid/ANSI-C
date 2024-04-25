@@ -1,14 +1,16 @@
 #include "csv_reader.h"
 
-
-void read_csv(Word *first_word,char *filename){
-    /* 
-    La funzione prende in input il nome del file txt e lo apre
-    Dopo legge ogni carattere del testo e controlla diverse cose:
-        *1.
-    */
-
-
+/* 
+La funzione prende in input il nome del file csv e lo apre
+Dopo legge ogni carattere del testo e controlla diverse cose:
+    *1: controlla se il carattere non termina una parola o una percentuale e in 
+        base a dei valori booleani lo inserisce nella parola che inizia una riga,
+        in una parola successiva o in una percentual
+    *2: controlla se è una "," e salva la parola o il numero appena terminati
+    *3: controlla se è uno "\n", salvando l'ultima parola e resettando la parola
+        che inizia la riga
+*/
+void read_csv(Word *first_word,char *filename,bool par, int pipes[2]){
     // apre e controlla che il file esista
     FILE *file_in=fopen(filename,"r");
     if(file_in==0){
@@ -27,7 +29,7 @@ void read_csv(Word *first_word,char *filename){
     int id_word=0;
     ch=fgetc(file_in);
     while(ch!=EOF){
-        if(ch!=','&& ch!='\n'){
+        if(ch!=','&& ch!='\n'){// *1
             if(!pre_word_found){
                 pre_word[id_word]=ch;
             }
@@ -39,7 +41,7 @@ void read_csv(Word *first_word,char *filename){
             }
             id_word++;
         }
-        else if(ch==','){
+        else if(ch==','){// *2
             if(!pre_word_found){
                 pre_word_found=true;
                 id_word=0;
@@ -51,15 +53,15 @@ void read_csv(Word *first_word,char *filename){
             else{
                 is_num=false;
                 id_word=0;
-                newTuple_perc(first_word,pre_word,word,num);
+                controlTuple_perc(first_word,pre_word,word,num,par,pipes);
                 memset(word,'\0',30);
                 memset(num,'\0',30);
             }
         }
-        else if(ch=='\n'){
+        else if(ch=='\n'){// *3
             pre_word_found=false;
             is_num=false;
-            newTuple_perc(first_word,pre_word,word,num);
+            controlTuple_perc(first_word,pre_word,word,num,par,pipes);
             memset(pre_word,'\0',30);
             memset(word,'\0',30);
             memset(num,'\0',30);
@@ -68,21 +70,9 @@ void read_csv(Word *first_word,char *filename){
         ch=fgetc(file_in);
     }
 
-    //inizio print
-    /* Word *pointer;
-    pointer=first_word;
-    Tuple *tuple_pointer;
 
-    while(pointer!=NULL){
-        printf("[%s,%.4f]={",pointer->name,pointer->count);
-        tuple_pointer=pointer->first_tuple;
-        printf("[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
-        tuple_pointer=tuple_pointer->next_tuple;
-        while(tuple_pointer!=NULL){
-            printf(",[%s,%.4f]",tuple_pointer->name,tuple_pointer->count);
-            tuple_pointer=tuple_pointer->next_tuple;
-        }
-        printf("}\n");
-        pointer=pointer->next;
-    } */
+    if(par){
+        close(pipes[1]);
+        wait(NULL);
+    }
 }

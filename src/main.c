@@ -15,6 +15,8 @@ int main(int argc, char *argv[]){
     char *output=NULL;
     int n_word=0;
     char *start_word=NULL;
+
+    //controlla tutti gli input da linea di comando
     while ((c = getopt (argc, argv, "12pi:o:n:s:")) != -1)
     switch (c)
     {
@@ -51,21 +53,21 @@ int main(int argc, char *argv[]){
 
 
     if(comp_flag==0){
-        printf("Serve specificare un compito da eseguire\n");
+        printf("Obbligatorio specificare un compito da eseguire\n");
         exit(1);
     }
     if(input==NULL || output==NULL){
-        printf("Serve specficare un file in input e un file in output\n");
+        printf("Obbligatorio specificare un file in input e un file in output\n");
         exit(1);
     }
 
-
+    // print delle informazioni sull'esecuzione
     printf("Compito:%d\nParallelo:%s\n",comp_flag,par ? "true" : "false");
     printf("File input:%s\nFile output:%s\n",input,output);
 
-
+    // in base alle flag decide il compito da eseguire
     if(comp_flag==2 && par){
-        comp2_mono(input,output,n_word,start_word);
+        comp2_par(input,output,n_word,start_word);
     }
     else if(comp_flag==2 && !par){
         comp2_mono(input,output,n_word,start_word);
