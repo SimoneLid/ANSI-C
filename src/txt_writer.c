@@ -112,10 +112,12 @@ void write_random_text(Word *first_word, char *outfile, int n_word, char start_w
     // se non è stata data una prima parola la randomizza
     if(start_word==NULL){
         start=random_start_word(first_word);
-        printf("Parola iniziale non inserita o non presente!\nTesto creato partendo dalla parola random: %s\n",start->name);
+        printf("Parola iniziale non inserita o non presente!\n");
     }
-
+    printf("Testo di %d parole creato partendo dalla parola random: %s\n",n_word,start->name);
     
+
+
     // scrive per numword volte una parola e poi randomizza la successiva tra le Tuple collegate
     Tuple *tuple_pointer;
     char upper[30];

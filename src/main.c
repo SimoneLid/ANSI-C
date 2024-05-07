@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
         n_word=atoi(optarg);
         break;
     case 's':
-        strcpy(start_word,optarg);
+        start_word=optarg;
         break;
     }
 

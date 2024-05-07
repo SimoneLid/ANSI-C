@@ -111,8 +111,22 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
 
     Word *pointer;
     pointer=search_word(first_word,wordname);// ritorna il puntatore alla parola precedente
-    pointer->count+=perc_f;
-
+    // se la parola precedente non esiste allora la crea come Word successiva all'ultima
+    if(pointer==NULL){
+        Word *lastWord=first_word;
+        while(lastWord->next!=NULL){
+            lastWord=(Word*)lastWord->next;
+        }
+        pointer = (Word*) calloc(1,sizeof(Word));
+        pointer->count=perc_f;
+        strcpy(pointer->name,wordname);
+        pointer->first_tuple=NULL;
+        pointer->next=NULL;
+        lastWord->next=(struct Word*)pointer;
+    }
+    else{
+        pointer->count+=perc_f;
+    }
 
     Word *newWord=search_word(first_word,next_wordname);// ritorna il puntatore alla parola successiva
     
