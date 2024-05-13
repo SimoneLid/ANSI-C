@@ -28,7 +28,7 @@ void comp2_par(char *input, char *output, int n_word, char start_word[30]){
         close(pipes[0]);
         read_csv(first_word,input,true,pipes);
     }
-    else{
+    else if(pid==0){
         close(pipes[1]);
         char preword[30];
         char postword[30];
@@ -44,8 +44,16 @@ void comp2_par(char *input, char *output, int n_word, char start_word[30]){
         if((pid=fork())>0){
             wait(NULL);
         }
-        else{
+        else if(pid==0){
             write_random_text(first_word,output,n_word,start_word);
         }
+        else{
+            printf("Errore nella creazione di un processo tramite fork!\n");
+            exit(1);
+        }
+    }
+    else{
+        printf("Errore nella creazione di un processo tramite fork!\n");
+        exit(1);
     }
 }

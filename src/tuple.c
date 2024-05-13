@@ -52,6 +52,10 @@ void newTuple(Word *first_word, char wordname[30], char next_wordname[30]){
             newWord=(Word*)newWord->next;
         }
         Word *addedWord = (Word*) calloc(1,sizeof(Word));
+        if(addedWord==NULL){
+            printf("Errore nell'allocazione di memoria!\n");
+            exit(1);
+        }
         addedWord->count=0;
         strcpy(addedWord->name,next_wordname);
         addedWord->first_tuple=NULL;
@@ -118,6 +122,10 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
             lastWord=(Word*)lastWord->next;
         }
         pointer = (Word*) calloc(1,sizeof(Word));
+        if(pointer==NULL){
+            printf("Errore nell'allocazione di memoria!\n");
+            exit(1);
+        }
         pointer->count=perc_f;
         strcpy(pointer->name,wordname);
         pointer->first_tuple=NULL;
@@ -137,6 +145,10 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
             lastWord=(Word*)lastWord->next;
         }
         newWord = (Word*) calloc(1,sizeof(Word));
+        if(newWord==NULL){
+            printf("Errore nell'allocazione di memoria!\n");
+            exit(1);
+        }
         newWord->count=0;
         strcpy(newWord->name,next_wordname);
         newWord->first_tuple=NULL;
@@ -146,6 +158,11 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
 
 
     Tuple *tuple = (Tuple*) calloc(1,sizeof(Tuple));
+    if(tuple==NULL){
+        printf("Errore nell'allocazione di memoria!\n");
+        exit(1);
+    }
+
     // controlla se questa è la prima tupla e ci inserisce i valori
     if(pointer->first_tuple==NULL){
         strcpy(tuple->name,next_wordname);
@@ -173,4 +190,37 @@ void newTuple_perc(Word *first_word, char wordname[30], char next_wordname[30], 
     tuple->next_tuple=NULL;
     tuple->self_word=(struct Word*)newWord;
     tuple_pointer->next_tuple=(struct Tuple*)tuple;
+}
+
+
+/*
+Preso il puntatore di una linked list di Word esegue free() e chiama ricorsivamente la funzione
+per il puntatore successivo. Inoltre chiama la funzione che libero lo spazio della
+lista di Tuple
+*/
+void free_word(Word *pointer){
+    if(pointer==NULL){
+        return;
+    }
+
+    if(pointer->first_tuple!=NULL){
+        free_tuple((Tuple *)pointer->first_tuple);
+    }
+
+    free_word((Word *)pointer->next);
+    free(pointer);
+}
+
+
+/*
+Preso il puntatore di una linked list di Word esegue free() e chiama ricorsivamente la funzione
+per il puntatore successivo.
+*/
+void free_tuple(Tuple *pointer){
+    if(pointer==NULL){
+        return;
+    }
+
+    free_tuple((Tuple *)pointer->next_tuple);
+    free(pointer);
 }

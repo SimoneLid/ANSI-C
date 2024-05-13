@@ -3,7 +3,11 @@
 
 // Funzione che crea la prima Word della lista puntata e ritorna il puntatore
 Word *create_first_word(char word[30]){
-    Word *first_word = (Word*) malloc(sizeof(Word));
+    Word *first_word = (Word*) calloc(1,sizeof(Word));
+    if(first_word==NULL){
+        printf("Errore nell'allocazione di memoria!\n");
+        exit(1);
+    }
     strcpy(first_word->name,word);
     first_word->count=0;
     first_word->next=NULL;

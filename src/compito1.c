@@ -16,6 +16,7 @@ void comp1_mono(char *input, char *output){
         exit(0);
     }
     write_csv(first_word,output);
+    free_word(first_word);
 }
 
 
@@ -34,7 +35,7 @@ void comp1_par(char *input, char *output){
         close(pipes[0]);
         read_txt(first_word,input,true,pipes);
     }
-    else{
+    else if(pid==0){
         close(pipes[1]);
         char preword[30];
         char postword[30];
@@ -55,8 +56,17 @@ void comp1_par(char *input, char *output){
         if((pid=fork())>0){
             wait(NULL);
         }
-        else{
+        else if(pid==0){
             write_csv(first_word,output);
+            free_word(first_word);
         }
+        else{
+            printf("Errore nella creazione di un processo tramite fork!\n");
+            exit(1);
+        }
+    }
+    else{
+        printf("Errore nella creazione di un processo tramite fork!\n");
+        exit(1);
     }
 }
