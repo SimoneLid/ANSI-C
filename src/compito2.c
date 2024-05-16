@@ -34,7 +34,7 @@ void comp2_par(char *input, char *output, int n_word, char start_word[30]){
         char postword[30];
         char perc[30];
         while(true){
-            if(read(pipes[0],preword,30)==0){
+            if(read(pipes[0],preword,30)!=30){
                 break;
             }
             read(pipes[0],postword,30);
