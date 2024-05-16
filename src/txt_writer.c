@@ -89,7 +89,7 @@ e scrive il testo random sul file txt
 */
 void write_random_text(Word *first_word, char *outfile, int n_word, char start_word[30]){
     if(n_word<=0){
-        printf("Numero di parole non insierito o non valido\n");
+        printf("Numero di parole non inserito o non valido\n");
         exit(1);
     }
     
